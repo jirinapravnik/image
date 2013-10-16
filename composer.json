@@ -1,0 +1,28 @@
+{
+    "name": "jirinapravnik/image",
+    "description": "",
+    "keywords": ["nette", "image", "photo", "image manipulation"],
+    "type": "library",
+    "homepage": "https://github.com/JiriNapravnik/image",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+    "authors": [
+        {
+            "name": "Jiří Nápravník",
+            "email": "jiri.napravnik@gmail.com",
+            "homepage": "http://jirinapravnik.cz"
+        }
+    ],
+    "support": {
+        "email": "jiri.napravnik@gmail.com",
+        "forum": "https://github.com/JiriNapravnik/imageissues"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "nette/nette": "@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "JiriNapravnik": "src/"
+        }
+    }
+}
