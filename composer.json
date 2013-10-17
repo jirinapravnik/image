@@ -3,7 +3,7 @@
     "description": "",
     "keywords": ["nette", "image", "photo", "image manipulation"],
     "type": "library",
-    "homepage": "https://github.com/JiriNapravnik/image",
+    "homepage": "https://github.com/jirinapravnik/image",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
     "authors": [
         {
@@ -14,7 +14,7 @@
     ],
     "support": {
         "email": "jiri.napravnik@gmail.com",
-        "forum": "https://github.com/JiriNapravnik/imageissues"
+        "forum": "https://github.com/jirinapravnik/image/issues"
     },
     "require": {
         "php": ">=5.3.0",
