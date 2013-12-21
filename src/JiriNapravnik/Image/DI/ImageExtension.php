@@ -28,7 +28,6 @@ class ImageExtension extends Nette\DI\CompilerExtension
 	
 	public function afterCompile(Code\ClassType $class)
 	{
-		return;
 		parent::afterCompile($class);
 
 		$config = $this->getConfig($this->defaults);

@@ -33,20 +33,40 @@ class Image
 	const JPEG = IMAGETYPE_JPEG,
 		PNG = IMAGETYPE_PNG,
 		GIF = IMAGETYPE_GIF;
-	
+
 	private static $adapter = null;
-	
+
 	/**
-	 * 
+	 * create image from file
 	 * @param type $file
 	 * @param type $format
 	 * @return Enbros\Image\Adapter\IImageAdapter
 	 */
-	public static function fromFile($file, & $format = NULL){
+	public static function fromFile($file, & $format = NULL)
+	{
 		$adapter = callback(self::$adapter, 'fromFile');
 		return $adapter->invokeArgs(func_get_args());
 	}
-	
+
+	/**
+	 * 
+	 * @param type $width
+	 * @param type $height
+	 * @param type $color
+	 */
+	public static function fromBlank($width, $height, $color = NULL)
+	{
+		if (
+			self::$adapter instanceof Image\Adapter\ImagickAdapter &&
+			is_array($color) &&
+			isset($color['red']) && isset($color['green']) && isset($color['green'])) {
+			$color = 'rgba(' . $color['red'] . ', ' . $color['green'] . ', ' . $color['blue'] . ', ' . $color['alpha'] . ')';
+		}
+		
+		$adapter = callback(self::$adapter, 'fromBlank');
+		return $adapter->invokeArgs(array($width, $height, $color));
+	}
+
 	/**
 	 * Returns RGB color.
 	 * @param  int  red 0..255
@@ -178,9 +198,16 @@ class Image
 		return array($left, $top, $newWidth, $newHeight);
 	}
 
-	public static function setAdapter($adapter){
+	public static function setAdapter($adapter)
+	{
 		self::$adapter = $adapter;
 	}
+
+	public static function getAdapter($adapter)
+	{
+		return self::$adapter;
+	}
+
 }
 
 /**
