@@ -26,7 +26,8 @@ class ImagickAdapter extends AdapterAbstract
 			throw new NotSupportedException("PHP extension Imagick is not loaded.");
 		}
 
-		return new static($file);
+		$imageResource = new Imagick($file);
+		return new static($imageResource);
 	}
 
 	public static function fromBlank($width, $height, $color = NULL)
@@ -35,15 +36,18 @@ class ImagickAdapter extends AdapterAbstract
 			throw new NotSupportedException("PHP extension Imagick is not loaded.");
 		}
 
+		if(is_array($color)){
+			$color = 'rgba(' . $color['red'] . ',' . $color['green'] . ',' . $color['blue'] . ',' . $color['alpha'] . ')';
+		}
+		
 		$image = new Imagick();
 		$image->newimage($width, $height, new \ImagickPixel($color));
-
+		
 		return new static($image);
 	}
 
-	public function __construct($file)
+	public function __construct($imageResource)
 	{
-		$imageResource = new Imagick($file);
 		$this->setImageResource($imageResource);
 	}
 
@@ -53,7 +57,6 @@ class ImagickAdapter extends AdapterAbstract
 			throw new InvalidArgumentException('Image is not valid.');
 		}
 		$this->image = $image;
-		return $this;
 	}
 
 	public function resize($width, $height, $flags = Image::FIT)
@@ -124,7 +127,7 @@ class ImagickAdapter extends AdapterAbstract
 	public function place(IImageAdapter $image, $left = 0, $top = 0, $opacity = 100)
 	{
 		$opacity = max(0, min(100, (int) $opacity));
-
+		
 		if (substr($left, -1) === '%') {
 			$left = round(($this->getWidth() - $image->getWidth()) / 100 * $left);
 		}
