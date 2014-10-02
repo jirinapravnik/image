@@ -122,6 +122,7 @@ class ImagickAdapter extends AdapterAbstract
 		} else {
 			echo $this->getImageResource();
 		}
+		return TRUE;
 	}
 
 	public function place(IImageAdapter $image, $left = 0, $top = 0, $opacity = 100)
