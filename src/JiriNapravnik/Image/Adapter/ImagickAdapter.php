@@ -62,7 +62,8 @@ class ImagickAdapter extends AdapterAbstract
 	public function resize($width, $height, $flags = Image::FIT)
 	{
 		if ($flags & Image::EXACT) {
-			return $this->resize($width, $height, Image::FILL)->crop('50%', '50%', $width, $height);
+			return $this->resize($width, $height, Image::FILL | Image::SHRINK_ONLY)
+				->crop('50%', '50%', $width, $height);
 		}
 
 		list($newWidth, $newHeight) = Image::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
@@ -137,7 +138,8 @@ class ImagickAdapter extends AdapterAbstract
 			$top = round(($this->getHeight() - $image->getHeight()) / 100 * $top);
 		}
 
-		$image->getImageResource()->setImageOpacity($opacity / 100);
+		//$image->getImageResource()->setImageOpacity($opacity / 100);
+		$this->getImageResource()->evaluateImage(Imagick::EVALUATE_MULTIPLY, $opacity / 100, Imagick::CHANNEL_ALPHA);
 		$this->getImageResource()->compositeImage($image->getImageResource(), Imagick::COMPOSITE_OVER, $left, $top);
 		return $this;
 	}

@@ -157,7 +157,7 @@ class GdAdapter extends AdapterAbstract
 	public function resize($width, $height, $flags = Image::FIT)
 	{
 		if ($flags & Image::EXACT) {
-			return $this->resize($width, $height, Image::FILL)->crop('50%', '50%', $width, $height);
+			return $this->resize($width, $height, Image::FILL | Image::SHRINK_ONLY)->crop('50%', '50%', $width, $height);
 		}
 
 		list($newWidth, $newHeight) = Image::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
