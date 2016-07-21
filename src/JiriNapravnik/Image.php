@@ -44,8 +44,7 @@ class Image
 	 */
 	public static function fromFile($file, & $format = NULL)
 	{
-		$adapter = callback(self::$adapter, 'fromFile');
-		return $adapter->invokeArgs(func_get_args());
+		return call_user_func_array([self::$adapter, 'fromFile'], func_get_args());
 	}
 
 	/**
@@ -63,8 +62,7 @@ class Image
 			$color = 'rgba(' . $color['red'] . ', ' . $color['green'] . ', ' . $color['blue'] . ', ' . $color['alpha'] . ')';
 		}
 		
-		$adapter = callback(self::$adapter, 'fromBlank');
-		return $adapter->invokeArgs(array($width, $height, $color));
+		return call_user_func_array([self::$adapter, 'fromBlank'], [$width, $height, $color]);
 	}
 
 	/**

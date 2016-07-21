@@ -23,7 +23,7 @@ class ImagickAdapter extends AdapterAbstract
 	public static function fromFile($file, &$format = NULL)
 	{
 		if (!extension_loaded('imagick')) {
-			throw new NotSupportedException("PHP extension Imagick is not loaded.");
+			throw new \Exception("PHP extension Imagick is not loaded.");
 		}
 
 		$imageResource = new Imagick($file);
@@ -33,7 +33,7 @@ class ImagickAdapter extends AdapterAbstract
 	public static function fromBlank($width, $height, $color = NULL)
 	{
 		if (!extension_loaded('imagick')) {
-			throw new NotSupportedException("PHP extension Imagick is not loaded.");
+			throw new \Exception("PHP extension Imagick is not loaded.");
 		}
 
 		if(is_array($color)){
@@ -178,8 +178,7 @@ class ImagickAdapter extends AdapterAbstract
 	public function __call($method, $args)
 	{
 		if (method_exists($this->getImageResource(), $method)) {
-			$callback = callback($this->getImageResource(), $method);
-			$result = $callback->invokeArgs($args);
+			$result = call_user_func_array([$this->getImageResource(), $method], $args);
 			if(is_bool($result)){
 				return $this;
 			} else {
