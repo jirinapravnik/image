@@ -11,11 +11,9 @@
 
 namespace JiriNapravnik\Image\Adapter;
 
-use Nette;
 use JiriNapravnik\Image;
-use JiriNapravnik\Image\Adapter\IImageAdapter;
 
-abstract class AdapterAbstract extends Nette\Object implements IImageAdapter
+abstract class AdapterAbstract implements IImageAdapter
 {
 
 	/**
