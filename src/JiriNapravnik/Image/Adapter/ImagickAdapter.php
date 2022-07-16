@@ -9,10 +9,10 @@ use Imagick;
 
 /**
  * Basic manipulation with images via Imagick extension.
- * 
+ *
  * @author     Jiří Nápravník (http://jirinapravnik.cz)
- * 
- * Full copyright and licenses in the file license.md * 
+ *
+ * Full copyright and licenses in the file license.md *
  */
 
 class ImagickAdapter extends AdapterAbstract
@@ -39,10 +39,10 @@ class ImagickAdapter extends AdapterAbstract
 		if(is_array($color)){
 			$color = 'rgba(' . $color['red'] . ',' . $color['green'] . ',' . $color['blue'] . ',' . $color['alpha'] . ')';
 		}
-		
+
 		$image = new Imagick();
 		$image->newimage($width, $height, new \ImagickPixel($color));
-		
+
 		return new static($image);
 	}
 
@@ -129,13 +129,13 @@ class ImagickAdapter extends AdapterAbstract
 	public function place(IImageAdapter $image, $left = 0, $top = 0, $opacity = 100)
 	{
 		$opacity = max(0, min(100, (int) $opacity));
-		
+
 		if (substr($left, -1) === '%') {
-			$left = round(($this->getWidth() - $image->getWidth()) / 100 * $left);
+			$left = round(($this->getWidth() - $image->getWidth()) / 100 * Image::getIntFromPercent($left));
 		}
 
 		if (substr($top, -1) === '%') {
-			$top = round(($this->getHeight() - $image->getHeight()) / 100 * $top);
+			$top = round(($this->getHeight() - $image->getHeight()) / 100 * Image::getIntFromPercent($top));
 		}
 
 		//$image->getImageResource()->setImageOpacity($opacity / 100);

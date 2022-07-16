@@ -2,10 +2,10 @@
 
 /**
  * Image
- * 
+ *
  * @author     David Grudl (http://davidgrudl.com) - original Nette\Image from Nette Framework (http://nette.org)
  * @author     Jiří Nápravník (http://jirinapravnik.cz) - Imagick adapter and refactoring
- * 
+ *
  * Full copyright and licenses in the file license.md
  */
 
@@ -48,7 +48,7 @@ class Image
 	}
 
 	/**
-	 * 
+	 *
 	 * @param type $width
 	 * @param type $height
 	 * @param type $color
@@ -61,7 +61,7 @@ class Image
 			isset($color['red']) && isset($color['green']) && isset($color['green'])) {
 			$color = 'rgba(' . $color['red'] . ', ' . $color['green'] . ', ' . $color['blue'] . ', ' . $color['alpha'] . ')';
 		}
-		
+
 		return call_user_func_array([self::$adapter, 'fromBlank'], [$width, $height, $color]);
 	}
 
@@ -107,14 +107,14 @@ class Image
 	public static function calculateSize($srcWidth, $srcHeight, $newWidth, $newHeight, $flags = self::FIT)
 	{
 		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($srcWidth / 100 * abs($newWidth));
+			$newWidth = round($srcWidth / 100 * abs(self::getIntFromPercent($newWidth)));
 			$percents = TRUE;
 		} else {
 			$newWidth = (int) abs($newWidth);
 		}
 
 		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($srcHeight / 100 * abs($newHeight));
+			$newHeight = round($srcHeight / 100 * abs(self::getIntFromPercent($newHeight)));
 			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
 			$newHeight = (int) abs($newHeight);
@@ -172,16 +172,16 @@ class Image
 	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight)
 	{
 		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($srcWidth / 100 * $newWidth);
+			$newWidth = round($srcWidth / 100 * self::getIntFromPercent($newWidth));
 		}
 		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($srcHeight / 100 * $newHeight);
+			$newHeight = round($srcHeight / 100 * self::getIntFromPercent($newHeight));
 		}
 		if (substr($left, -1) === '%') {
-			$left = round(($srcWidth - $newWidth) / 100 * $left);
+			$left = round(($srcWidth - $newWidth) / 100 * self::getIntFromPercent($left));
 		}
 		if (substr($top, -1) === '%') {
-			$top = round(($srcHeight - $newHeight) / 100 * $top);
+			$top = round(($srcHeight - $newHeight) / 100 * self::getIntFromPercent($top));
 		}
 		if ($left < 0) {
 			$newWidth += $left;
@@ -206,6 +206,9 @@ class Image
 		return self::$adapter;
 	}
 
+	public static function getIntFromPercent($in){
+		return str_replace('%', '', $in);
+	}
 }
 
 /**
@@ -213,5 +216,5 @@ class Image
  */
 class UnknownImageFileException extends \Exception
 {
-	
+
 }
